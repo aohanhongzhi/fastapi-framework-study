@@ -1,16 +1,19 @@
 import time
-
+import pysnooper
+import uvicorn
 from fastapi import FastAPI
 from loguru import logger
-import uvicorn
 
 app = FastAPI()
 
 
 @app.get("/")
+@pysnooper.snoop() # 这个必须贴近下面方法名
 def read_root():
     logger.debug("====>访问fastapi首页")
-    time.sleep(9)
+
+    # 测试线程并发度 经过多番测试大概并发度一般是 CPU核心数+1
+    time.sleep(4)
     return {"Hello": "World"}
 
 

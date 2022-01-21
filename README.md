@@ -4,8 +4,18 @@ FastAPI framework, high performance, easy to learn, fast to code, ready for prod
 
 ### 
 Documentation: https://fastapi.tiangolo.com
+
 中文文档：https://fastapi.tiangolo.com/zh/
+
 Source Code: https://github.com/tiangolo/fastapi
+
+# 组件
+
+技术 | 说明        | 官网
+----|-----------|----
+fastapi | | 
+ PySnooper| 调试，展示调用详情 | https://github.com/cool-RR/PySnooper
+
 
 ### 安装fastapi
 
@@ -16,6 +26,7 @@ pip install fastapi
 ```shell
 pip install uvicorn
 ```
+
 
 
 ### 运行程序
@@ -32,3 +43,7 @@ uvicorn main:app --reload
 ```
 [FastAPI 开始安装(创建第一个例子）多种运行方式](https://blog.csdn.net/qq_40815295/article/details/106896707)
 [官网提供这种运行方式](https://fastapi.tiangolo.com/zh/tutorial/debugging/)
+
+![img.png](img.png)
+
+![img_1.png](img_1.png)
