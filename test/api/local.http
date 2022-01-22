@@ -1,4 +1,7 @@
 GET http://localhost:8000
 
+###
+GET http://localhost:8000/hello/eric
+
 ### items
 GET http://localhost:8000/items/1?q=parameter
