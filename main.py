@@ -1,10 +1,21 @@
 import time
 import pysnooper
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Query, status, Depends
 from loguru import logger
 
-app = FastAPI()
+from dao import models
+from dao.database import engine
+from routers import users, items
+from dependencies import get_token_header
+
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI(dependencies=[Depends(get_token_header)])
+
+# 路由注册
+app.include_router(users.router)
+app.include_router(items.router)
 
 
 @app.get("/")
@@ -18,14 +29,28 @@ def read_root():
 
 
 @app.get("/hello/{name}")
-async def say_hello(name: str):
+async def say_hello(name: str = Query(None, max_length=50)):
+    """
+
+    :param name:  查询参数校验，最大长度为50
+    :return:
+    """
     return {"message": f"Hello {name}"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    logger.debug("\n====>输入参数是{},{}", item_id, q)
-    return {"item_id": item_id, "q": q}
+@app.get("/exception_catch", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+@logger.catch
+def exception_catch():
+    raise RuntimeError("loguru异常捕获")
+
+
+@app.get("/exception_catch2")
+@logger.catch
+def exception(x: int):
+    try:
+        return 1 / x
+    except ZeroDivisionError:
+        logger.exception("What?!")
 
 
 if __name__ == '__main__':

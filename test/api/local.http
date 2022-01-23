@@ -3,5 +3,34 @@ GET http://localhost:8000
 ###
 GET http://localhost:8000/hello/eric
 
+### items x_token
+GET http://localhost:8000/items
+x_token:fake-super-secret-token
+
+### items list x_token
+GET http://localhost:8000/items/list?token=jessica
+
+x_token:fake-super-secret-token
+
 ### items
 GET http://localhost:8000/items/1?q=parameter
+
+### users me
+GET http://localhost:8000/users/me?token=jessica
+token:jessica
+
+### items修改
+PUT http://localhost:8000/items/1?name=eric
+Content-Type: application/json
+
+{
+  "name": "eric",
+  "price": 1.0
+}
+
+
+###
+GET http://localhost:8000/exception_catch
+###
+GET http://localhost:8000/exception_catch2?x=0
+
