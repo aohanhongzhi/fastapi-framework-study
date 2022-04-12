@@ -50,6 +50,12 @@ uvicorn main:app --reload
 ```
 ![](asset/img/run.png)
 
+#### 热重启
+
+```shell
+uvicorn main:app --reload
+```
+
 #### main方法运行
 
 下面这种与上面没有本质区别。

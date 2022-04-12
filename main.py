@@ -1,4 +1,6 @@
 import time
+from concurrent.futures.thread import ThreadPoolExecutor
+
 import pysnooper
 import uvicorn
 from fastapi import FastAPI, Query, status, Depends
@@ -8,6 +10,9 @@ from dao import models
 from dao.database import engine
 from routers import users, items
 from dependencies import get_token_header
+
+# 创建一个包含3条线程的线程池
+pool = ThreadPoolExecutor(max_workers=3)
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -51,6 +56,21 @@ def exception(x: int):
         return 1 / x
     except ZeroDivisionError:
         logger.exception("What?!")
+
+
+@app.on_event("startup")
+async def startup_event():
+    """
+    这个方法相当于SpringBoot的@PostConstruct，随着SpringBoot启动完成就初始化。
+    这里放一些mq之类的启动了！！
+    :return: https://fastapi.tiangolo.com/zh/advanced/events/
+    """
+    logger.info("在fastapi的程序就绪之前启动完成！")
+    pool.submit(mq_start)
+
+
+def mq_start():
+    logger.info("开启消息监听")
 
 
 if __name__ == '__main__':
